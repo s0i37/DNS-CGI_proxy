@@ -1,8 +1,11 @@
 var http = require('http')
 var https = require('https')
 var zlib = require('zlib')
+var SocksProxyAgent = require('socks-proxy-agent')
+
 
 const DNS_SUFFIX = '.s0i37.ga'
+var tor = new SocksProxyAgent('socks://127.0.0.1:9050')
 
 function replace_headers(headers, host)
 {
@@ -30,13 +33,15 @@ function proxy(proto, port, request, response)
 	if(headers.host.indexOf(DNS_SUFFIX) == -1)
 		throw '[!] outside request'
 	headers.host = headers.host.replace(DNS_SUFFIX, '')
+	agent = (headers.host.split('.').pop().toLowerCase() == 'onion') : tor : null
 
 	req = proto.request( {
 			host: headers.host,
 			port: port,
 			path: url,
 			method: method,
-			headers: headers
+			headers: headers,
+			agent: agent
 		}, function(res) {
 			response.writeHead(res.statusCode, replace_headers(res.headers, headers.host) )
 			if(res.headers['content-type'] == 'application/octet-stream')

@@ -3,8 +3,8 @@ var https = require('https')
 var fs = require('fs');
 
 var certificate = {
-	key: fs.readFileSync('/root/certs/key.pem'),
-	cert: fs.readFileSync('/root/certs/cert.pem')
+	key: fs.readFileSync('key.pem'),
+	cert: fs.readFileSync('cert.pem')
 }
 
 

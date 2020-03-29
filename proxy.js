@@ -4,7 +4,7 @@ var zlib = require('zlib')
 var SocksProxyAgent = require('socks-proxy-agent')
 
 
-const DNS_SUFFIX = '.s0i37.ga'
+const DNS_SUFFIX = '.s0i37.ml'
 var tor = new SocksProxyAgent('socks://127.0.0.1:9050')
 
 function replace_headers(headers, host)
@@ -33,7 +33,7 @@ function proxy(proto, port, request, response)
 	if(headers.host.indexOf(DNS_SUFFIX) == -1)
 		throw '[!] outside request'
 	headers.host = headers.host.replace(DNS_SUFFIX, '')
-	agent = (headers.host.split('.').pop().toLowerCase() == 'onion') : tor : null
+	agent = (headers.host.split('.').pop().toLowerCase() == 'onion') ? tor : null
 
 	req = proto.request( {
 			host: headers.host,

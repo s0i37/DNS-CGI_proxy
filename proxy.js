@@ -31,7 +31,9 @@ function proxy(proto, port, request, response)
 		chunks = []
 
 	if(headers.host.indexOf(DNS_SUFFIX) == -1)
-		throw '[!] outside request'
+		throw '[!] outside request: ' + request.connection.remoteAddress +  ' - ' + headers.host
+	else
+		console.log('[+] request: ' + request.connection.remoteAddress +  ' - ' + headers.host)
 	headers.host = headers.host.replace(DNS_SUFFIX, '')
 	agent = (headers.host.split('.').pop().toLowerCase() == 'onion') ? tor : null
 

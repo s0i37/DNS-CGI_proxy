@@ -28,12 +28,14 @@ function replace_body(buffer, host)
 function proxy(proto, port, request, response)
 {
 	var { method, headers, url } = request,
-		chunks = []
+		chunks = [],
+		now = new Date(),
+		time = `${now.getDate()}.${now.getMonth()+1}.${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`
 
 	if(headers.host.indexOf(DNS_SUFFIX) == -1)
-		throw '[!] outside request: ' + request.connection.remoteAddress +  ' - ' + headers.host
+		throw '[!] [' + time + ']: ' + request.connection.remoteAddress +  ' - ' + headers.host
 	else
-		console.log('[+] request: ' + request.connection.remoteAddress +  ' - ' + headers.host)
+		console.log('[+] [' + time + ']: ' + request.connection.remoteAddress +  ' - ' + headers.host)
 	headers.host = headers.host.replace(DNS_SUFFIX, '')
 	agent = (headers.host.split('.').pop().toLowerCase() == 'onion') ? tor : null
 

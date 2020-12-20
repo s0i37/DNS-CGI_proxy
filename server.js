@@ -7,6 +7,7 @@ var certificate = {
 	cert: fs.readFileSync('cert.pem')
 }
 
+const LISTEN = "0.0.0.0"
 
 function start(proxy)
 {
@@ -21,7 +22,7 @@ function start(proxy)
 			response.writeHead(404, {'Content-Type': 'text/html'})
 			response.end("not found")
 		}
-	} ).listen( 80 )
+	} ).listen( 80, LISTEN )
 
 	https.createServer( certificate, function(request, response) {
 		try
@@ -34,7 +35,7 @@ function start(proxy)
 			response.writeHead(404, {'Content-Type': 'text/html'})
 			response.end("not found")
 		}
-	} ).listen( 443 )
+	} ).listen( 443, LISTEN )
 }
 
 exports.start = start
